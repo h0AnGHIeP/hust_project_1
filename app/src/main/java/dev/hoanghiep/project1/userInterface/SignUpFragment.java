@@ -26,6 +26,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import dev.hoanghiep.project1.R;
+import dev.hoanghiep.project1.data.FirebaseStructure;
+
+import static dev.hoanghiep.project1.data.FirebaseStructure.*;
 
 public class SignUpFragment extends Fragment {
 
@@ -70,10 +73,10 @@ public class SignUpFragment extends Fragment {
                         if (task.isSuccessful()) {
                             FirebaseUser currentUser = mAuth.getCurrentUser();
                             String userId = currentUser.getUid();
-                            DatabaseReference userRef = mDatabaseReference.child("USERS").child(userId);
-                            userRef.child("display").setValue(displayName);
-                            userRef.child("phone").setValue(phone);
-                            userRef.child("created").setValue(formatter.format(new Date()));
+                            DatabaseReference userRef = mDatabaseReference.child(USERS.THIS).child(userId);
+                            userRef.child(USERS.INFO.DISPLAY_NAME).setValue(displayName);
+                            userRef.child(USERS.INFO.PHONE).setValue(phone);
+                            userRef.child(USERS.INFO.CREATED_DATE).setValue(formatter.format(new Date()));
                             startActivity(ListChatActivity.newIntent(getActivity()));
                         } else {
                             Toast.makeText(getActivity(), "Request but not success", Toast.LENGTH_LONG).show();

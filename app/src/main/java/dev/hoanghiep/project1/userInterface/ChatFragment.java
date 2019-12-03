@@ -32,11 +32,14 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import dev.hoanghiep.project1.R;
 import dev.hoanghiep.project1.data.ChatMessage;
+import dev.hoanghiep.project1.data.FirebaseStructure;
+
+import static dev.hoanghiep.project1.data.FirebaseStructure.*;
 
 public class ChatFragment extends Fragment {
     private static final int VIEW_TYPE_OWNER = 88;
     private static final int VIEW_TYPE_OTHER = 66;
-    private static final String ARG_FRIEND_UID = "arg_friend_uid";
+    private static final String ARG_FRIEND_UID = "argument_friend_uid";
 
     @BindView(R.id.chat_recycler_view)
     RecyclerView mChatRecyclerView;
@@ -50,7 +53,7 @@ public class ChatFragment extends Fragment {
 
     private List<ChatMessage> mListMessages = new ArrayList<>();
 
-    private Unbinder mUnbinder;
+    private Unbinder mUnbind;
     private String mConversationId;
     /*
     Refer to the conversation node
@@ -59,13 +62,13 @@ public class ChatFragment extends Fragment {
     private FirebaseUser mCurrentUser;
 
     @OnClick(R.id.chat_send)
-    public void sendToServer() {
+    void sendToServer() {
         /*
         Add message to the conversation
          */
         DatabaseReference newMsg = mDatabaseReference.push();
-        newMsg.child("content").setValue(mChatEdit.getText().toString());
-        newMsg.child("sender").setValue(mCurrentUser.getUid());
+        newMsg.child(MESSAGE.CONVERSATION.CONTENT).setValue(mChatEdit.getText().toString());
+        newMsg.child(MESSAGE.CONVERSATION.SENDER).setValue(mCurrentUser.getUid());
     }
 
     @Override
@@ -89,7 +92,7 @@ public class ChatFragment extends Fragment {
             mConversationId = getArguments().getString(ARG_FRIEND_UID);
             Toast.makeText(getActivity(), mConversationId, Toast.LENGTH_LONG).show();
         }
-        mUnbinder = ButterKnife.bind(this, view);
+        mUnbind = ButterKnife.bind(this, view);
         /*
         Get current user information
          */
@@ -101,7 +104,7 @@ public class ChatFragment extends Fragment {
                 .getInstance()
                 .getReference()
                 .getRoot()
-                .child("MESSAGES")
+                .child(MESSAGE.THIS)
                 .child(mConversationId);
         /*
         Set up Recycler View
@@ -117,8 +120,8 @@ public class ChatFragment extends Fragment {
                     @Override
                     public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                         ChatMessage chat = new ChatMessage();
-                        chat.setContent((String) dataSnapshot.child("content").getValue());
-                        chat.setSenderId((String) dataSnapshot.child("sender").getValue());
+                        chat.setContent((String) dataSnapshot.child(MESSAGE.CONVERSATION.CONTENT).getValue());
+                        chat.setSenderId((String) dataSnapshot.child(MESSAGE.CONVERSATION.SENDER).getValue());
                         chat.who(mCurrentUser.getUid());
                         mListMessages.add(chat);
                         mMessageAdapter.notifyItemInserted(mListMessages.size() - 1);
@@ -208,7 +211,7 @@ public class ChatFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        mUnbinder.unbind();
+        mUnbind.unbind();
     }
 
 }

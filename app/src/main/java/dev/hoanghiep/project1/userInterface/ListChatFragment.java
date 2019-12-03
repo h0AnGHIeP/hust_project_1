@@ -31,6 +31,9 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import dev.hoanghiep.project1.R;
 import dev.hoanghiep.project1.data.ChatFriend;
+import dev.hoanghiep.project1.data.FirebaseStructure;
+
+import static dev.hoanghiep.project1.data.FirebaseStructure.*;
 
 public class ListChatFragment extends Fragment {
     private DatabaseReference mDatabaseReference;
@@ -50,7 +53,7 @@ public class ListChatFragment extends Fragment {
     public void onStart() {
         super.onStart();
         validateUser();
-        mAdapter.startListening();
+        if(mAdapter!=null) mAdapter.startListening();
     }
 
     @Override
@@ -90,14 +93,14 @@ public class ListChatFragment extends Fragment {
             return null;
         }
         mDatabaseReference = FirebaseDatabase.getInstance().getReference().getRoot();
-        mUserReference = mDatabaseReference.child("USERS").child(mCurrentUser.getUid());
-        Query query = mUserReference.child("friends").limitToLast(10);
+        mUserReference = mDatabaseReference.child(USERS.THIS).child(mCurrentUser.getUid());
+        Query query = mUserReference.child(USERS.INFO.LIST_FRIEND).limitToLast(10);
         FirebaseRecyclerOptions<ChatFriend> options = new FirebaseRecyclerOptions.Builder<ChatFriend>()
                 .setQuery(query, snapshot -> {
                     ChatFriend result = new ChatFriend();
                     result.setId(snapshot.getKey());
-                    result.setConversationId((String) snapshot.child("id").getValue());
-                    result.setName((String) snapshot.child("name").getValue());
+                    result.setConversationId((String) snapshot.child(USERS.INFO.FRIEND_INFO.ID).getValue());
+                    result.setName((String) snapshot.child(USERS.INFO.FRIEND_INFO.DISPLAY_NAME).getValue());
                     return result;
                 }).build();
         mAdapter = new FirebaseRecyclerAdapter<ChatFriend, ChatFriendHolder>(options) {
@@ -160,7 +163,7 @@ public class ListChatFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        mAdapter.stopListening();
+        if (mAdapter!=null) mAdapter.stopListening();
     }
 
     @Override

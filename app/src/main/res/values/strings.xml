@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">Project 1</string>
+    <string name="login_pass">Password</string>
+    <string name="login_email">Email</string>
+    <string name="login_title">PORTABLE CHAT</string>
+    <string name="login_create_account">Haven\'t got account !</string>
+    <string name="login_pass_title">Password</string>
+    <string name="login_email_title">User\'s Email</string>
+    <string name="ic_app">App\'s icon</string>
+    <string name="sign_up_name_title">User\'s name</string>
+    <string name="sign_up_pass">Secure password</string>
+    <string name="sign_up_name_hint">Full name</string>
+    <string name="sign_up_phone_hint">Phone\'s number</string>
+    <string name="sign_up_create_title">Create now</string>
+    <string name="sign_up_email_title">Unique email</string>
+    <string name="sign_up_big_title">Create new account</string>
+    <string name="sign_up_phone_title">Telephone</string>
+    <string name="sign_up_small_title">for FREE</string>
 </resources>
