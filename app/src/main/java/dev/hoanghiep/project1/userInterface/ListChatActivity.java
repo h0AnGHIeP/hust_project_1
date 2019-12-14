@@ -3,10 +3,12 @@ package dev.hoanghiep.project1.userInterface;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -22,6 +24,9 @@ public class ListChatActivity extends AppCompatActivity {
     private ListFriendAdapter mAdapter = new ListFriendAdapter(getSupportFragmentManager(),
             FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
 
+    @BindView(R.id.pager_toolbar)
+    Toolbar mPagerToolbar;
+
     @BindView(R.id.list_chat_pager)
     ViewPager mPager;
 
@@ -35,7 +40,10 @@ public class ListChatActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         mPager.setAdapter(mAdapter);
         mTabLayout.setupWithViewPager(mPager);
+        setSupportActionBar(mPagerToolbar);
+        getSupportActionBar().setTitle("");
     }
+
 
     public static Intent newIntent(Context packageContext) {
         return new Intent(packageContext, ListChatActivity.class);
@@ -70,9 +78,9 @@ public class ListChatActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "Look up";
-                case 1:
                     return "Friends";
+                case 1:
+                    return "Look up";
                 case 2:
                     return "Settings";
                 default:

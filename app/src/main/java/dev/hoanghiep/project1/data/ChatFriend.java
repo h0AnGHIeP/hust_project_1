@@ -8,5 +8,4 @@ public class ChatFriend {
     private String conversationId;
     private String name;
     private boolean isAccepted;
-
 }

@@ -1,19 +1,17 @@
 package dev.hoanghiep.project1.userInterface;
 
-import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,9 +31,10 @@ import dev.hoanghiep.project1.R;
 import dev.hoanghiep.project1.data.ChatFriend;
 import dev.hoanghiep.project1.data.FirebaseStructure;
 
-import static dev.hoanghiep.project1.data.FirebaseStructure.*;
+import static dev.hoanghiep.project1.data.FirebaseStructure.USERS;
 
 public class ListChatFragment extends Fragment {
+    private static final String TAG = "ListChatFragment";
     private DatabaseReference mDatabaseReference;
     private DatabaseReference mUserReference;
     private FirebaseUser mCurrentUser;
@@ -43,40 +42,19 @@ public class ListChatFragment extends Fragment {
     @BindView(R.id.chat_list_recycler_view)
     RecyclerView mRecyclerView;
 
-    @BindView(R.id.list_chat_toolbar)
-    Toolbar mListChatToolBar;
+    @BindView(R.id.chat_list_loading)
+    ProgressBar mProgressBar;
+
+
     private FirebaseRecyclerAdapter<ChatFriend, ChatFriendHolder> mAdapter;
 
-    private Unbinder mUnbinder;
+    private Unbinder mUnbind;
 
     @Override
     public void onStart() {
         super.onStart();
         validateUser();
-        if(mAdapter!=null) mAdapter.startListening();
-    }
-
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_list_friend, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.sign_out:
-                FirebaseAuth.getInstance().signOut();
-                mCurrentUser = null;
-                validateUser();
-                return true;
-            case R.id.item_setting:
-                startActivity(SettingActivity.newIntent(getActivity()));
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-
+        if (mAdapter != null) mAdapter.startListening();
     }
 
     @Nullable
@@ -84,14 +62,15 @@ public class ListChatFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_chat_list, container, false);
-        mUnbinder = ButterKnife.bind(this, view);
+        mUnbind = ButterKnife.bind(this, view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         mCurrentUser = FirebaseAuth.getInstance().getCurrentUser();
-        if(mCurrentUser==null){
+        if (mCurrentUser == null) {
             validateUser();
             return null;
         }
+
         mDatabaseReference = FirebaseDatabase.getInstance().getReference().getRoot();
         mUserReference = mDatabaseReference.child(USERS.THIS).child(mCurrentUser.getUid());
         Query query = mUserReference.child(USERS.INFO.LIST_FRIEND).limitToLast(10);
@@ -100,10 +79,20 @@ public class ListChatFragment extends Fragment {
                     ChatFriend result = new ChatFriend();
                     result.setId(snapshot.getKey());
                     result.setConversationId((String) snapshot.child(USERS.INFO.FRIEND_INFO.ID).getValue());
+
                     result.setName((String) snapshot.child(USERS.INFO.FRIEND_INFO.DISPLAY_NAME).getValue());
+                    Log.i(TAG, "onCreateView: "+result.getName());
                     return result;
                 }).build();
+
         mAdapter = new FirebaseRecyclerAdapter<ChatFriend, ChatFriendHolder>(options) {
+
+            @Override
+            public void onDataChanged() {
+                super.onDataChanged();
+                mProgressBar.setVisibility(View.GONE);
+            }
+
             @NonNull
             @Override
             public ChatFriendHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -114,18 +103,19 @@ public class ListChatFragment extends Fragment {
 
             @Override
             protected void onBindViewHolder(@NonNull ChatFriendHolder holder, int position, @NonNull ChatFriend model) {
-                holder.bind(model);
+                FirebaseStructure.loadBitmap("dog.jpg", getActivity(), bitmap -> {
+                    holder.bind(model, bitmap);
+                });
                 holder.itemView.setOnClickListener(v -> {
-                    startActivity(ChatActivity.newInstance(getActivity(),model.getConversationId()));
+                    Log.i(TAG, "onBindViewHolder: clicked");
+                    startActivity(ChatActivity.newIntent(getActivity(),
+                            model.getConversationId(),
+                            model.getId(),
+                            model.getName()));
                 });
             }
         };
         mRecyclerView.setAdapter(mAdapter);
-        /*
-        Set up toolbar
-         */
-        ((AppCompatActivity) getActivity()).setSupportActionBar(mListChatToolBar);
-
         setHasOptionsMenu(true);
         return view;
     }
@@ -134,15 +124,23 @@ public class ListChatFragment extends Fragment {
         @BindView(R.id.friend_display_name)
         TextView mName;
 
-        private Context mHostActivity;
+        @BindView(R.id.friend_image)
+        ImageView mFriendImg;
+
+        @BindView(R.id.icon_request)
+        ImageView mRequestIcon;
+        Bitmap mAvatar;
 
         ChatFriendHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
 
-        void bind(ChatFriend chatFriend) {
+        void bind(ChatFriend chatFriend, Bitmap avatar) {
+            mRequestIcon.setVisibility(View.GONE);
             mName.setText(chatFriend.getName());
+            mFriendImg.setImageBitmap(avatar);
+            mAvatar = avatar;
         }
     }
 
@@ -163,12 +161,12 @@ public class ListChatFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        if (mAdapter!=null) mAdapter.stopListening();
+        if (mAdapter != null) mAdapter.stopListening();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        mUnbinder.unbind();
+        mUnbind.unbind();
     }
 }
