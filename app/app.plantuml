@@ -1,0 +1,260 @@
+@startuml
+
+title __APP's Class Diagram__\n
+
+  namespace dev.hoanghiep.project1 {
+    class dev.hoanghiep.project1.BuildConfig {
+    }
+  }
+  
+
+  namespace dev.hoanghiep.project1 {
+    abstract class dev.hoanghiep.project1.MainActivity {
+    }
+  }
+  
+
+  namespace dev.hoanghiep.project1 {
+    namespace data {
+      class dev.hoanghiep.project1.data.ChatFriend {
+      }
+    }
+  }
+  
+
+  namespace dev.hoanghiep.project1 {
+    namespace data {
+      class dev.hoanghiep.project1.data.ChatMessage {
+      }
+    }
+  }
+  
+
+  namespace dev.hoanghiep.project1 {
+    namespace data {
+      class dev.hoanghiep.project1.data.FirebaseStructure {
+      }
+    }
+  }
+  
+
+  namespace dev.hoanghiep.project1 {
+    namespace data {
+      class dev.hoanghiep.project1.data.User {
+      }
+    }
+  }
+  
+
+  namespace dev.hoanghiep.project1 {
+    namespace userInterface {
+      class dev.hoanghiep.project1.userInterface.ChatActivity {
+      }
+    }
+  }
+  
+
+  namespace dev.hoanghiep.project1 {
+    namespace userInterface {
+      class dev.hoanghiep.project1.userInterface.ChatFragment {
+      }
+    }
+  }
+  
+
+  namespace dev.hoanghiep.project1 {
+    namespace userInterface {
+      class dev.hoanghiep.project1.userInterface.ChatFragment$MessageHolder_ViewBinding {
+      }
+    }
+  }
+  
+
+  namespace dev.hoanghiep.project1 {
+    namespace userInterface {
+      class dev.hoanghiep.project1.userInterface.ChatFragment_ViewBinding {
+      }
+    }
+  }
+  
+
+  namespace dev.hoanghiep.project1 {
+    namespace userInterface {
+      class dev.hoanghiep.project1.userInterface.ListChatActivity {
+      }
+    }
+  }
+  
+
+  namespace dev.hoanghiep.project1 {
+    namespace userInterface {
+      class dev.hoanghiep.project1.userInterface.ListChatActivity_ViewBinding {
+      }
+    }
+  }
+  
+
+  namespace dev.hoanghiep.project1 {
+    namespace userInterface {
+      class dev.hoanghiep.project1.userInterface.ListChatFragment {
+      }
+    }
+  }
+  
+
+  namespace dev.hoanghiep.project1 {
+    namespace userInterface {
+      class dev.hoanghiep.project1.userInterface.ListChatFragment$ChatFriendHolder_ViewBinding {
+      }
+    }
+  }
+  
+
+  namespace dev.hoanghiep.project1 {
+    namespace userInterface {
+      class dev.hoanghiep.project1.userInterface.ListChatFragment_ViewBinding {
+      }
+    }
+  }
+  
+
+  namespace dev.hoanghiep.project1 {
+    namespace userInterface {
+      class dev.hoanghiep.project1.userInterface.ListChatLookUp {
+      }
+    }
+  }
+  
+
+  namespace dev.hoanghiep.project1 {
+    namespace userInterface {
+      class dev.hoanghiep.project1.userInterface.ListChatLookUp$UserHolder_ViewBinding {
+      }
+    }
+  }
+  
+
+  namespace dev.hoanghiep.project1 {
+    namespace userInterface {
+      class dev.hoanghiep.project1.userInterface.ListChatLookUp_ViewBinding {
+      }
+    }
+  }
+  
+
+  namespace dev.hoanghiep.project1 {
+    namespace userInterface {
+      class dev.hoanghiep.project1.userInterface.LoginActivity {
+      }
+    }
+  }
+  
+
+  namespace dev.hoanghiep.project1 {
+    namespace userInterface {
+      class dev.hoanghiep.project1.userInterface.LoginFragment {
+      }
+    }
+  }
+  
+
+  namespace dev.hoanghiep.project1 {
+    namespace userInterface {
+      class dev.hoanghiep.project1.userInterface.LoginFragment_ViewBinding {
+      }
+    }
+  }
+  
+
+  namespace dev.hoanghiep.project1 {
+    namespace userInterface {
+      class dev.hoanghiep.project1.userInterface.SettingActivity {
+      }
+    }
+  }
+  
+
+  namespace dev.hoanghiep.project1 {
+    namespace userInterface {
+      class dev.hoanghiep.project1.userInterface.SettingFragment {
+      }
+    }
+  }
+  
+
+  namespace dev.hoanghiep.project1 {
+    namespace userInterface {
+      class dev.hoanghiep.project1.userInterface.SettingFragment_ViewBinding {
+      }
+    }
+  }
+  
+
+  namespace dev.hoanghiep.project1 {
+    namespace userInterface {
+      class dev.hoanghiep.project1.userInterface.SignUpActivity {
+      }
+    }
+  }
+  
+
+  namespace dev.hoanghiep.project1 {
+    namespace userInterface {
+      class dev.hoanghiep.project1.userInterface.SignUpFragment {
+      }
+    }
+  }
+  
+
+  namespace dev.hoanghiep.project1 {
+    namespace userInterface {
+      class dev.hoanghiep.project1.userInterface.SignUpFragment_ViewBinding {
+      }
+    }
+  }
+  
+
+  dev.hoanghiep.project1.MainActivity -up-|> androidx.appcompat.app.AppCompatActivity
+  dev.hoanghiep.project1.userInterface.ChatActivity -up-|> dev.hoanghiep.project1.MainActivity
+  dev.hoanghiep.project1.userInterface.ChatFragment -up-|> androidx.fragment.app.Fragment
+  dev.hoanghiep.project1.userInterface.ChatFragment o-- dev.hoanghiep.project1.userInterface.ChatFragment.MessageAdapter : mMessageAdapter
+  dev.hoanghiep.project1.userInterface.ChatFragment$MessageHolder_ViewBinding .up.|> butterknife.Unbinder
+  dev.hoanghiep.project1.userInterface.ChatFragment$MessageHolder_ViewBinding o-- dev.hoanghiep.project1.userInterface.ChatFragment.MessageHolder : target
+  dev.hoanghiep.project1.userInterface.ChatFragment_ViewBinding .up.|> butterknife.Unbinder
+  dev.hoanghiep.project1.userInterface.ChatFragment_ViewBinding o-- dev.hoanghiep.project1.userInterface.ChatFragment : target
+  dev.hoanghiep.project1.userInterface.ListChatActivity -up-|> androidx.appcompat.app.AppCompatActivity
+  dev.hoanghiep.project1.userInterface.ListChatActivity o-- dev.hoanghiep.project1.userInterface.ListChatActivity.ListFriendAdapter : mAdapter
+  dev.hoanghiep.project1.userInterface.ListChatActivity_ViewBinding .up.|> butterknife.Unbinder
+  dev.hoanghiep.project1.userInterface.ListChatActivity_ViewBinding o-- dev.hoanghiep.project1.userInterface.ListChatActivity : target
+  dev.hoanghiep.project1.userInterface.ListChatFragment -up-|> androidx.fragment.app.Fragment
+  dev.hoanghiep.project1.userInterface.ListChatFragment$ChatFriendHolder_ViewBinding .up.|> butterknife.Unbinder
+  dev.hoanghiep.project1.userInterface.ListChatFragment$ChatFriendHolder_ViewBinding o-- dev.hoanghiep.project1.userInterface.ListChatFragment.ChatFriendHolder : target
+  dev.hoanghiep.project1.userInterface.ListChatFragment_ViewBinding .up.|> butterknife.Unbinder
+  dev.hoanghiep.project1.userInterface.ListChatFragment_ViewBinding o-- dev.hoanghiep.project1.userInterface.ListChatFragment : target
+  dev.hoanghiep.project1.userInterface.ListChatLookUp -up-|> androidx.fragment.app.Fragment
+  dev.hoanghiep.project1.userInterface.ListChatLookUp$UserHolder_ViewBinding .up.|> butterknife.Unbinder
+  dev.hoanghiep.project1.userInterface.ListChatLookUp$UserHolder_ViewBinding o-- dev.hoanghiep.project1.userInterface.ListChatLookUp.UserHolder : target
+  dev.hoanghiep.project1.userInterface.ListChatLookUp_ViewBinding .up.|> butterknife.Unbinder
+  dev.hoanghiep.project1.userInterface.ListChatLookUp_ViewBinding o-- dev.hoanghiep.project1.userInterface.ListChatLookUp : target
+  dev.hoanghiep.project1.userInterface.LoginActivity -up-|> dev.hoanghiep.project1.MainActivity
+  dev.hoanghiep.project1.userInterface.LoginFragment -up-|> androidx.fragment.app.Fragment
+  dev.hoanghiep.project1.userInterface.LoginFragment_ViewBinding .up.|> butterknife.Unbinder
+  dev.hoanghiep.project1.userInterface.LoginFragment_ViewBinding o-- dev.hoanghiep.project1.userInterface.LoginFragment : target
+  dev.hoanghiep.project1.userInterface.SettingActivity -up-|> dev.hoanghiep.project1.MainActivity
+  dev.hoanghiep.project1.userInterface.SettingFragment -up-|> androidx.fragment.app.Fragment
+  dev.hoanghiep.project1.userInterface.SettingFragment_ViewBinding .up.|> butterknife.Unbinder
+  dev.hoanghiep.project1.userInterface.SettingFragment_ViewBinding o-- dev.hoanghiep.project1.userInterface.SettingFragment : target
+  dev.hoanghiep.project1.userInterface.SignUpActivity -up-|> dev.hoanghiep.project1.MainActivity
+  dev.hoanghiep.project1.userInterface.SignUpFragment -up-|> androidx.fragment.app.Fragment
+  dev.hoanghiep.project1.userInterface.SignUpFragment_ViewBinding .up.|> butterknife.Unbinder
+  dev.hoanghiep.project1.userInterface.SignUpFragment_ViewBinding o-- dev.hoanghiep.project1.userInterface.SignUpFragment : target
+
+
+right footer
+
+
+PlantUML diagram generated by SketchIt! (https://bitbucket.org/pmesmeur/sketch.it)
+For more information about this tool, please contact philippe.mesmeur@gmail.com
+endfooter
+
+@enduml

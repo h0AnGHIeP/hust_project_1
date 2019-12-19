@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Project I</string>
+    <string name="login_pass">Mật khẩu</string>
+    <string name="login_email">Email</string>
+    <string name="login_title">Chat Project</string>
+    <string name="login_create_account">Có tài khoản chưa?</string>
+    <string name="login_pass_title">Mật khẩu</string>
+    <string name="login_email_title">Email của bạn</string>
+    <string name="ic_app">App\'s icon</string>
+    <string name="sign_up_name_title">Tên người dùng</string>
+    <string name="sign_up_pass">Mật khẩu bảo mật cao</string>
+    <string name="sign_up_name_hint">Họ tên</string>
+    <string name="sign_up_phone_hint">Số điện thoại</string>
+    <string name="sign_up_create_title">Tạo</string>
+    <string name="sign_up_email_title">Email độc</string>
+    <string name="sign_up_big_title">Tạo tài khoản mới</string>
+    <string name="sign_up_phone_title">Số (lớn hơn 2 chữ số)</string>
+    <string name="sign_up_small_title">miễn phí</string>
+
+    <string name="setting_logout_dialog">Mày muốn thoát</string>
+    <string name="setting_logout_positive_btn">Có, làm ơn</string>
+    <string name="setting_logout_negative_btn">Không</string>
+    <string name="log_out_title">Thoát</string>
+</resources>

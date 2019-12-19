@@ -34,7 +34,6 @@ import dev.hoanghiep.project1.data.FirebaseStructure;
 import static dev.hoanghiep.project1.data.FirebaseStructure.USERS;
 
 public class ListChatFragment extends Fragment {
-    private static final String TAG = "ListChatFragment";
     private DatabaseReference mDatabaseReference;
     private DatabaseReference mUserReference;
     private FirebaseUser mCurrentUser;
@@ -47,7 +46,6 @@ public class ListChatFragment extends Fragment {
 
 
     private FirebaseRecyclerAdapter<ChatFriend, ChatFriendHolder> mAdapter;
-
     private Unbinder mUnbind;
 
     @Override
@@ -73,15 +71,14 @@ public class ListChatFragment extends Fragment {
 
         mDatabaseReference = FirebaseDatabase.getInstance().getReference().getRoot();
         mUserReference = mDatabaseReference.child(USERS.THIS).child(mCurrentUser.getUid());
-        Query query = mUserReference.child(USERS.INFO.LIST_FRIEND).limitToLast(10);
+        Query query =
+                mUserReference.child(USERS.INFO.LIST_FRIEND).limitToLast(50);
         FirebaseRecyclerOptions<ChatFriend> options = new FirebaseRecyclerOptions.Builder<ChatFriend>()
                 .setQuery(query, snapshot -> {
                     ChatFriend result = new ChatFriend();
                     result.setId(snapshot.getKey());
                     result.setConversationId((String) snapshot.child(USERS.INFO.FRIEND_INFO.ID).getValue());
-
                     result.setName((String) snapshot.child(USERS.INFO.FRIEND_INFO.DISPLAY_NAME).getValue());
-                    Log.i(TAG, "onCreateView: "+result.getName());
                     return result;
                 }).build();
 
@@ -107,7 +104,6 @@ public class ListChatFragment extends Fragment {
                     holder.bind(model, bitmap);
                 });
                 holder.itemView.setOnClickListener(v -> {
-                    Log.i(TAG, "onBindViewHolder: clicked");
                     startActivity(ChatActivity.newIntent(getActivity(),
                             model.getConversationId(),
                             model.getId(),

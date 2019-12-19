@@ -2,7 +2,7 @@
     <string name="app_name">Project I</string>
     <string name="login_pass">Password</string>
     <string name="login_email">Email</string>
-    <string name="login_title">PORTABLE CHAT</string>
+    <string name="login_title">Chat Project</string>
     <string name="login_create_account">Haven\'t got account !</string>
     <string name="login_pass_title">Password</string>
     <string name="login_email_title">User\'s Email</string>
@@ -18,7 +18,7 @@
     <string name="sign_up_small_title">for FREE</string>
 
     <string name="setting_logout_dialog">Are you wish to quit??</string>
-    <string name="setting_logout_title">Log out</string>
-    <string name="setting_logout_positive_btn">Of Course, motherfucker</string>
-    <string name="setting_logout_negative_btn">No, fuck off</string>
+    <string name="setting_logout_positive_btn">Yes, please</string>
+    <string name="setting_logout_negative_btn">No</string>
+    <string name="log_out_title">Log out</string>
 </resources>

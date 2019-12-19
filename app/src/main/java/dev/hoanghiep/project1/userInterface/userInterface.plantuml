@@ -1,0 +1,264 @@
+@startuml
+
+title __USERINTERFACE's Class Diagram__\n
+
+      class dev.hoanghiep.project1.userInterface.ChatActivity {
+          {static} - CLASS_NAME : String
+          {static} - EXTRA_CONVERSATION_UID : String
+          {static} - EXTRA_FRIEND_ALIAS : String
+          {static} - EXTRA_FRIEND_UID : String
+          + getFragment()
+          {static} + newIntent()
+      }
+
+  
+
+
+      class dev.hoanghiep.project1.userInterface.ChatFragment {
+          ~ mAliasText : TextView
+          ~ mChatEdit : EditText
+          ~ mChatRecyclerView : RecyclerView
+          ~ mFriendImage : ImageView
+          ~ mFriendText : TextView
+          ~ mSendButton : ImageButton
+          {static} - ARG_CONVERSATION_UID : String
+          {static} - ARG_FRIEND_ALIAS : String
+          {static} - ARG_FRIEND_UID : String
+          {static} - VIEW_TYPE_OTHER : int
+          {static} - VIEW_TYPE_OWNER : int
+          {static} - className : String
+          - mCurrentUser : FirebaseUser
+          - mDatabaseReference : DatabaseReference
+          - mListMessages : List<ChatMessage>
+          - mUnbind : Unbinder
+          {static} + newInstance()
+          + onCreateView()
+          + onDestroyView()
+          + onStart()
+          ~ sendToServer()
+        }
+  
+
+
+      class dev.hoanghiep.project1.userInterface.ChatFragment.MessageAdapter {
+          + getItemCount()
+          + getItemViewType()
+          + onBindViewHolder()
+          + onCreateViewHolder()
+      }
+
+
+  
+
+      class dev.hoanghiep.project1.userInterface.ChatFragment.MessageHolder {
+          ~ mContent : TextView
+          ~ mUser : TextView
+          ~ MessageHolder()
+          ~ bind()
+      }
+
+  
+
+
+      class dev.hoanghiep.project1.userInterface.ListChatActivity {
+          ~ mPager : ViewPager
+          ~ mPagerToolbar : Toolbar
+          ~ mTabLayout : TabLayout
+          {static} + newIntent()
+          # onCreate()
+      }
+
+  
+
+      class dev.hoanghiep.project1.userInterface.ListChatActivity.ListFriendAdapter {
+          + getCount()
+          + getItem()
+          + getPageTitle()
+          - ListFriendAdapter()
+      }
+
+
+      class dev.hoanghiep.project1.userInterface.ListChatFragment {
+          ~ mProgressBar : ProgressBar
+          ~ mRecyclerView : RecyclerView
+          {static} - TAG : String
+          - mAdapter : FirebaseRecyclerAdapter<ChatFriend, ChatFriendHolder>
+          - mCurrentUser : FirebaseUser
+          - mDatabaseReference : DatabaseReference
+          - mUnbind : Unbinder
+          - mUserReference : DatabaseReference
+          {static} + newInstance()
+          + onCreateView()
+          + onDestroyView()
+          + onStart()
+          + onStop()
+          - validateUser()
+      }
+
+  
+
+      class dev.hoanghiep.project1.userInterface.ListChatFragment.ChatFriendHolder {
+          ~ mAvatar : Bitmap
+          ~ mFriendImg : ImageView
+          ~ mName : TextView
+          ~ mRequestIcon : ImageView
+          ~ ChatFriendHolder()
+          ~ bind()
+      }
+
+
+  
+
+      class dev.hoanghiep.project1.userInterface.ListChatLookUp {
+          ~ mRecyclerLookUp : RecyclerView
+          - mAdapter : FirebaseRecyclerAdapter
+          - mAllUserRef : DatabaseReference
+          - mCurrentUser : FirebaseUser
+          - mUnbind : Unbinder
+          {static} + newInstance()
+          + onCreateView()
+          + onDestroyView()
+          + onStart()
+          + onViewCreated()
+      }
+
+
+  
+
+
+      class dev.hoanghiep.project1.userInterface.ListChatLookUp.UserHolder {
+          ~ mName : TextView
+          ~ mRequestIcon : ImageView
+          ~ UserHolder()
+          ~ bind()
+
+  }
+  
+
+      class dev.hoanghiep.project1.userInterface.LoginActivity {
+          + getFragment()
+          {static} + newIntent()
+      }
+
+  
+
+
+      class dev.hoanghiep.project1.userInterface.LoginFragment {
+          ~ mEmailEdit : EditText
+          ~ mPassEdit : EditText
+          ~ mSignInButton : Button
+          ~ mSignUpButton : Button
+          - mAuth : FirebaseAuth
+          - mUnbinder : Unbinder
+          + createAccount()
+          + login()
+          {static} + newInstance()
+          + onCreateOptionsMenu()
+          + onCreateView()
+          + onDestroyView()
+      }
+
+  
+
+      class dev.hoanghiep.project1.userInterface.SettingActivity {
+          + getFragment()
+          {static} + newIntent()
+      }
+
+  
+
+      class dev.hoanghiep.project1.userInterface.SettingFragment {
+          ~ mCameraButton : ImageButton
+          ~ mImage : ImageView
+          ~ mLogoutLayout : ConstraintLayout
+          ~ mUploadButton : Button
+          {static} - REQUEST_IMAGE_CAPTURE : int
+          {static} - TAG : String
+          - mUnbind : Unbinder
+          - newBitmap : Bitmap
+          {static} + newInstance()
+          + onActivityResult()
+          + onCreateView()
+          + onDestroy()
+          + onViewCreated()
+          ~ takePhoto()
+          ~ uploadImage()
+      }
+
+  
+
+      class dev.hoanghiep.project1.userInterface.SettingFragment.LogoutDialog {
+          + onCreateDialog()
+          ~ LogoutDialog()
+      }
+
+
+
+      interface dev.hoanghiep.project1.userInterface.SettingFragment.LogoutDialog.Listener {
+          {abstract} + onPositive()
+      }
+
+  
+
+
+      class dev.hoanghiep.project1.userInterface.SignUpActivity {
+          + getFragment()
+          {static} + newIntent()
+      }
+
+  
+
+
+      class dev.hoanghiep.project1.userInterface.SignUpFragment {
+          ~ mDisplayEdit : EditText
+          ~ mEmailEdit : EditText
+          ~ mPasswordEdit : EditText
+          ~ mPhoneEdit : EditText
+          ~ mSignUpButton : Button
+          - mAuth : FirebaseAuth
+          - mDatabaseReference : DatabaseReference
+          - mUnbinder : Unbinder
+          + createAccount()
+          {static} + newInstance()
+          + onCreateView()
+          + onDestroyView()
+      }
+  
+
+  dev.hoanghiep.project1.userInterface.ChatActivity -up-|> dev.hoanghiep.project1.MainActivity
+  dev.hoanghiep.project1.userInterface.ChatFragment -up-|> androidx.fragment.app.Fragment
+  dev.hoanghiep.project1.userInterface.ChatFragment o-- dev.hoanghiep.project1.userInterface.ChatFragment.MessageAdapter : mMessageAdapter
+  dev.hoanghiep.project1.userInterface.ChatFragment +-down- dev.hoanghiep.project1.userInterface.ChatFragment.MessageAdapter
+  dev.hoanghiep.project1.userInterface.ChatFragment +-down- dev.hoanghiep.project1.userInterface.ChatFragment.MessageHolder
+  dev.hoanghiep.project1.userInterface.ChatFragment.MessageAdapter -up-|> androidx.recyclerview.widget.RecyclerView.Adapter
+  dev.hoanghiep.project1.userInterface.ChatFragment.MessageHolder -up-|> androidx.recyclerview.widget.RecyclerView.ViewHolder
+  dev.hoanghiep.project1.userInterface.ListChatActivity -up-|> androidx.appcompat.app.AppCompatActivity
+  dev.hoanghiep.project1.userInterface.ListChatActivity o-- dev.hoanghiep.project1.userInterface.ListChatActivity.ListFriendAdapter : mAdapter
+  dev.hoanghiep.project1.userInterface.ListChatActivity +-down- dev.hoanghiep.project1.userInterface.ListChatActivity.ListFriendAdapter
+  dev.hoanghiep.project1.userInterface.ListChatActivity.ListFriendAdapter -up-|> androidx.fragment.app.FragmentPagerAdapter
+  dev.hoanghiep.project1.userInterface.ListChatFragment -up-|> androidx.fragment.app.Fragment
+  dev.hoanghiep.project1.userInterface.ListChatFragment +-down- dev.hoanghiep.project1.userInterface.ListChatFragment.ChatFriendHolder
+  dev.hoanghiep.project1.userInterface.ListChatFragment.ChatFriendHolder -up-|> androidx.recyclerview.widget.RecyclerView.ViewHolder
+  dev.hoanghiep.project1.userInterface.ListChatLookUp -up-|> androidx.fragment.app.Fragment
+  dev.hoanghiep.project1.userInterface.ListChatLookUp +-down- dev.hoanghiep.project1.userInterface.ListChatLookUp.UserHolder
+  dev.hoanghiep.project1.userInterface.ListChatLookUp.UserHolder -up-|> androidx.recyclerview.widget.RecyclerView.ViewHolder
+  dev.hoanghiep.project1.userInterface.LoginActivity -up-|> dev.hoanghiep.project1.MainActivity
+  dev.hoanghiep.project1.userInterface.LoginFragment -up-|> androidx.fragment.app.Fragment
+  dev.hoanghiep.project1.userInterface.SettingActivity -up-|> dev.hoanghiep.project1.MainActivity
+  dev.hoanghiep.project1.userInterface.SettingFragment -up-|> androidx.fragment.app.Fragment
+  dev.hoanghiep.project1.userInterface.SettingFragment +-down- dev.hoanghiep.project1.userInterface.SettingFragment.LogoutDialog
+  dev.hoanghiep.project1.userInterface.SettingFragment.LogoutDialog -up-|> androidx.fragment.app.DialogFragment
+  dev.hoanghiep.project1.userInterface.SettingFragment.LogoutDialog o-- dev.hoanghiep.project1.userInterface.SettingFragment.LogoutDialog.Listener : mListener
+  dev.hoanghiep.project1.userInterface.SettingFragment.LogoutDialog +-down- dev.hoanghiep.project1.userInterface.SettingFragment.LogoutDialog.Listener
+  dev.hoanghiep.project1.userInterface.SignUpActivity -up-|> dev.hoanghiep.project1.MainActivity
+  dev.hoanghiep.project1.userInterface.SignUpFragment -up-|> androidx.fragment.app.Fragment
+
+
+right footer
+
+
+PlantUML diagram generated by SketchIt! (https://bitbucket.org/pmesmeur/sketch.it)
+For more information about this tool, please contact philippe.mesmeur@gmail.com
+endfooter
+
+@enduml

@@ -1,6 +1,5 @@
 package dev.hoanghiep.project1.userInterface;
 
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -66,13 +65,11 @@ public class ChatFragment extends Fragment {
     private List<ChatMessage> mListMessages = new ArrayList<>();
     
     private Unbinder mUnbind;
-    private DatabaseReference mFriendRef;
     /*
     Refer to the conversation node
      */
     private DatabaseReference mDatabaseReference;
     private FirebaseUser mCurrentUser;
-    private Bitmap mFriendBitmap;
     
     /*
     Add message to the conversation
@@ -111,7 +108,6 @@ public class ChatFragment extends Fragment {
         
         FirebaseStructure.loadBitmap("dog.jpg", getActivity(), bitmap -> {
             mFriendImage.setImageBitmap(bitmap);
-            mFriendBitmap = bitmap;
         });
         mUnbind = ButterKnife.bind(this, view);
         /*
@@ -128,7 +124,7 @@ public class ChatFragment extends Fragment {
         mDatabaseReference = root
                 .child(MESSAGE.THIS)
                 .child(conversationId);
-        mFriendRef = root.child(FirebaseStructure.USERS.THIS)
+        DatabaseReference friendRef = root.child(FirebaseStructure.USERS.THIS)
                 .child(mFriendId);
         /*
         Set up Recycler View
@@ -140,7 +136,7 @@ public class ChatFragment extends Fragment {
         /*
         Set friend's name
          */
-        mFriendRef.child(FirebaseStructure.USERS.INFO.DISPLAY_NAME).addListenerForSingleValueEvent(new ValueEventListener() {
+        friendRef.child(FirebaseStructure.USERS.INFO.DISPLAY_NAME).addListenerForSingleValueEvent(new ValueEventListener() {
             
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -222,8 +218,6 @@ public class ChatFragment extends Fragment {
     }
     
     static class MessageHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.chat_item_user)
-        TextView mUser;
         @BindView(R.id.chat_item_content)
         TextView mContent;
         
@@ -233,12 +227,13 @@ public class ChatFragment extends Fragment {
         }
         
         void bind(ChatMessage message) {
-            mUser.setText(message.isSender() ? "ME " : "OTHER");
             mContent.setText(message.getContent());
         }
     }
     
-    public static ChatFragment newInstance(String conversationId, String friendId, String friendAlias) {
+    public static ChatFragment newInstance(String conversationId,
+                                           @NonNull String friendId,
+                                           @NonNull String friendAlias) {
         ChatFragment newIns = new ChatFragment();
         Bundle args = new Bundle();
         args.putString(ARG_FRIEND_UID, friendId);
